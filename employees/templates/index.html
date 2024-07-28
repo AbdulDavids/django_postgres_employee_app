@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management App</title>
+    <style>
+            body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 1200px;
+    gap: 20px;
+    margin-top: 300px;
+}
+
+.container {
+    flex: 1;
+    padding: 30px;
+    background-color: #ffffff;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #343a40;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 400px;
+}
+
+form div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin: 10px 0;
+}
+
+form label {
+    margin-bottom: 5px;
+    margin-left: 1px;
+    font-size: 1rem;
+    color: #495057;
+    width: 100%;
+}
+
+form button {
+    padding: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    width: 100%;
+    font-size: 16px;
+}
+
+form input {
+    padding: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 100%;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+form input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table, th, td {
+    border: 1px solid #dee2e6;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+}
+
+th {
+    background-color: #f8f9fa;
+    color: #495057;
+    font-size: 1.1rem;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.actions a, .actions form button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+.actions a {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.actions a:hover {
+    background-color: #117a8b;
+}
+
+.actions .delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+.actions .delete:hover {
+    background-color: #c82333;
+}
+
+a {
+    margin-top: 10px;
+    text-decoration: none;
+    color: #007bff;
+    font-size: 16px;
+}
+
+@media (min-width: 768px) {
+    .wrapper {
+        flex-direction: row;
+        margin-top: 20px;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <h1>{% if editing %}Edit Employee{% else %}Add Employee{% endif %}</h1>
+            <form method="post">
+                {% csrf_token %}
+                <div>
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" value="{% if editing %}{{ form.instance.name }}{% endif %}" required>
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" value="{% if editing %}{{ form.instance.email }}{% endif %}" required>
+                </div>
+                <div>
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" name="phone" value="{% if editing %}{{ form.instance.phone }}{% endif %}" required>
+                </div>
+                <button type="submit">{% if editing %}Update{% else %}Add Employee{% endif %}</button>
+                {% if editing %}<a href="/">Cancel</a>{% endif %}
+            </form>
+        </div>
+        <div class="container">
+            <h2>Employee List</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for employee in employees %}
+                        <tr>
+                            <td>{{ employee.name }}</td>
+                            <td>{{ employee.email }}</td>
+                            <td>{{ employee.phone }}</td>
+                            <td class="actions">
+                                <a href="{% url 'employee_edit' employee.pk %}">Edit</a>
+                                <a class="delete" href="{% url 'employee_delete' employee.pk %}">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
