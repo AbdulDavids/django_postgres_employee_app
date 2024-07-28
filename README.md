@@ -36,6 +36,8 @@ A Django-based web application for managing employees. The application supports 
 
 ## Usage
 
+![screenshot-1.png](images/screenshot-1.png)
+
 1. **Add Employee:**
 
     - Fill out the form with the employee's name, email, and phone number.
