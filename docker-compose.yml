@@ -4,9 +4,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      POSTGRES_DB: employee_db
+      POSTGRES_DB: employees
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin_password
+      POSTGRES_PASSWORD: password
 
   web:
     build: .
@@ -20,9 +20,9 @@ services:
     depends_on:
       - db
     environment:
-      - DATABASE_NAME=employee_db
+      - DATABASE_NAME=employees
       - DATABASE_USER=admin
-      - DATABASE_PASSWORD=admin_password
+      - DATABASE_PASSWORD=password
       - DATABASE_HOST=db
       - DATABASE_PORT=5432
 
