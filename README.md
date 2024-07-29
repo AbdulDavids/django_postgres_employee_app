@@ -18,19 +18,46 @@ A Django-based web application for managing employees. The application supports 
     cd django_postgres_employee_app
     ```
 
-2. **Build and run the Docker container:**
+2. Add your database credentials to the `docker-compose.yml` file:
+
+    ```yaml
+    services:
+      db:
+        image: postgres:13
+        environment:
+          POSTGRES_DB: <database_name>
+          POSTGRES_USER: <database_user>
+          POSTGRES_PASSWORD: <database_password>
+    ```
+
+3. Add your database credentials to the `settings.py` file:
+
+    ```python
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': '<database_name>',
+            'USER': '<database_user>',
+            'PASSWORD': '<database_password>',
+            'HOST': 'db',
+            'PORT': 5432,
+        }
+    }
+    ```
+
+4. **Build and run the Docker container:**
 
     ```bash
     docker-compose up --build
     ```
 
-3. **Run database migrations:**
+5. **Run database migrations:**
 
     ```bash
     docker-compose run web python manage.py migrate
     ```
 
-4. **Access the application:**
+6. **Access the application:**
 
     Open your browser and navigate to `http://localhost:8000/`.
 
