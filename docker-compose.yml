@@ -1,4 +1,13 @@
 services:
+  db:
+    image: postgres:14
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: employee_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin_password
+
   web:
     build: .
     command: >
@@ -8,9 +17,14 @@ services:
       - .:/app
     ports:
       - "8000:8000"
+    depends_on:
+      - db
     environment:
-      - DATABASE_NAME=postgres
-      - DATABASE_USER=postgres
-      - DATABASE_PASSWORD=admin
-      - DATABASE_HOST=host.docker.internal
+      - DATABASE_NAME=employee_db
+      - DATABASE_USER=admin
+      - DATABASE_PASSWORD=admin_password
+      - DATABASE_HOST=db
       - DATABASE_PORT=5432
+
+volumes:
+  postgres_data:
