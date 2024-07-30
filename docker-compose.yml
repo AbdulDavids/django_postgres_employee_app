@@ -5,11 +5,13 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     environment:
       POSTGRES_DB: employees
-      POSTGRES_USER: admin
       POSTGRES_PASSWORD: password
+      POSTGRES_HOST_AUTH_METHOD: trust
 
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     command: >
       sh -c "python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
@@ -21,9 +23,10 @@ services:
       - db
     environment:
       - DB_NAME=employees
-      - DB_USER=admin
+      - DB_USER=postgres
       - DB_PASSWORD=password
       - DB_HOST=db
+      - DATABASE_URL=postgres://postgres:password@db:5432/employees
 
 volumes:
   postgres_data:
