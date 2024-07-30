@@ -20,11 +20,10 @@ services:
     depends_on:
       - db
     environment:
-      - DATABASE_NAME=employees
-      - DATABASE_USER=admin
-      - DATABASE_PASSWORD=password
-      - DATABASE_HOST=db
-      - DATABASE_PORT=5432
+      - DB_NAME=employees
+      - DB_USER=admin
+      - DB_PASSWORD=password
+      - DB_HOST=db
 
 volumes:
   postgres_data:
