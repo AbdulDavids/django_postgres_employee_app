@@ -15,3 +15,5 @@ RUN pip install -r requirements.txt
 
 # Copy the project files
 COPY . /app/
+
+EXPOSE 8080
