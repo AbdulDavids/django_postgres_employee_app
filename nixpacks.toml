@@ -10,4 +10,4 @@ commands = [
 ]
 
 [phases.start]
-cmd = "python manage.py runserver 0.0.0.0:8000"
+cmd = "uvicorn employee_app.asgi:employees --host 0.0.0.0 --port 8080"
